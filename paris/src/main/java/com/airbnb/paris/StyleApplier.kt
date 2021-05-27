@@ -44,6 +44,10 @@ abstract class StyleApplier<P, V : View> private constructor(val proxy: P, val v
     }
 
     open fun apply(style: Style) {
+        apply(style, view.context)
+    }
+
+    open fun apply(style: Style, context: Context) {
         // Assumes that if the Style has an AttributeSet it's being applied during the View
         // initialization, in which case parents should be making the call themselves
         if (style.shouldApplyParent) {
@@ -52,7 +56,7 @@ abstract class StyleApplier<P, V : View> private constructor(val proxy: P, val v
 
         val attributes = attributes()
         if (attributes != null) {
-            val typedArray = style.obtainStyledAttributes(view.context, attributes)
+            val typedArray = style.obtainStyledAttributes(context, attributes)
 
             processStyleableFields(style, typedArray)
 
